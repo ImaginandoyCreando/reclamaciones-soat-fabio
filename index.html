@@ -3,541 +3,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabio Quintero Peñaloza - Abogado Especialista en Reclamaciones SOAT</title>
+    <title>Asesores Jurídicos - Tu Guía en Reclamaciones por Accidentes de Tránsito</title>
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    
     <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Base styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Very light gray for overall background */
-            color: #333;
-            min-height: 100vh; /* Ensure body takes full viewport height */
-            display: flex;
-            flex-direction: column;
-        }
-        main {
-            flex: 1; /* Allow main content to grow and push footer down */
+        :root {
+            --bg-dark: #101010;
+            --bg-light: #f9f9f9;
+            --primary-gold: #D4AF37;
+            --text-dark: #1a1a1a;
+            --text-light: #e0e0e0;
+            --card-dark: #1a1a1a;
         }
 
-        /* Hero Section styles */
-        .hero-bg {
-            background-image: url('https://placehold.co/1920x800/212121/FFD700?text=Accidentes+de+Tr%C3%A1nsito'); /* Darker hero with yellow text */
-            background-size: cover;
-            background-position: center;
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Roboto Slab', serif;
+            font-weight: 700;
+        }
+
+        /* Hero Section Styling */
+        .hero-section {
+            background-color: var(--bg-dark);
             position: relative;
             overflow: hidden;
-            min-height: 80vh; /* Ensure it's tall enough */
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        .hero-overlay {
+        .hero-section::before {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.75); /* Darker overlay */
-            z-index: 1;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1), transparent 30%),
+                              radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.05), transparent 25%);
+            animation: pulse-lights 12s infinite alternate;
         }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            padding: 1.5rem; /* Added padding for mobile */
+        @keyframes pulse-lights {
+            from { transform: scale(1); opacity: 0.7; }
+            to { transform: scale(1.1); opacity: 1; }
         }
 
-        /* Section Title styles */
+        /* Section Title Underline */
         .section-title {
             position: relative;
-            display: inline-block;
-            font-weight: 800; /* Extra bold */
-            color: #212121; /* Dark text for titles */
-            padding-bottom: 15px; /* Space for underline */
+            padding-bottom: 1rem;
         }
         .section-title::after {
             content: '';
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%); /* Center the underline */
             bottom: 0;
-            width: 80px; /* Fixed width for consistency */
-            height: 5px; /* Thicker underline */
-            background-color: #FFD700; /* Yellow underline */
-            border-radius: 3px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-gold);
+            border-radius: 2px;
+            transform-origin: left;
         }
-        .dark-section .section-title {
-            color: #f0f2f5; /* Light text for titles on dark background */
-        }
-        .dark-section .section-title::after {
-            background-color: #FFD700; /* Yellow underline */
-        }
-
-        /* Logo styles */
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .logo-text {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: #212121;
+        .text-center .section-title::after {
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        /* WhatsApp floating button styles */
-        .whatsapp-button {
-            position: fixed;
-            bottom: 24px; /* Adjusted position */
-            right: 24px; /* Adjusted position */
-            background-color: #25D366; /* WhatsApp green */
-            color: white;
+        /* Interactive Roadmap */
+        .roadmap-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #333;
+            transform: translateX(-50%);
+        }
+        .roadmap-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background-color: var(--primary-gold);
+            height: 0;
+        }
+        .roadmap-step {
+            position: relative;
+        }
+        .roadmap-step::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 1.25rem; /* align with icon center */
+            width: 20px;
+            height: 20px;
+            background-color: #333;
             border-radius: 50%;
-            width: 60px; /* Standard size */
-            height: 60px; /* Standard size */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px; /* Standard icon size */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Standard shadow */
-            z-index: 1000;
-            transition: transform 0.2s ease-in-out;
+            transform: translateX(-50%);
+            border: 4px solid var(--bg-dark);
+            z-index: 1;
+            transition: background-color 0.3s ease;
         }
-        .whatsapp-button:hover {
-            transform: scale(1.1);
+        .roadmap-step.is-active::before {
+            background-color: var(--primary-gold);
         }
-
-        /* Card styles */
-        .card {
-            background-color: white;
-            border-radius: 0.75rem; /* Slightly less rounded for stability */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Lighter shadow */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            padding: 2rem; /* Standard padding */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+        .roadmap-step:nth-child(odd) .step-content {
+            margin-left: calc(50% + 40px);
+            text-align: left;
         }
-        .card:hover {
-            transform: translateY(-5px); /* Lighter lift effect */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        .roadmap-step:nth-child(even) .step-content {
+            margin-right: calc(50% + 40px);
+            text-align: right;
         }
-        .dark-section .card {
-            background-color: #2a2a2a; /* Darker card background */
-            color: #f0f2f5;
+        
+        /* General Styles & Animations */
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            visibility: hidden;
         }
-
-        /* Button styles */
         .btn-primary {
-            background-color: #FFD700; /* Yellow primary button */
-            color: #212121; /* Black text on yellow */
-            font-weight: 700;
-            padding: 0.85rem 2.25rem; /* Adjusted padding */
-            border-radius: 9999px; /* Fully rounded */
-            transition: background-color 0.2s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            background-color: var(--primary-gold);
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 25px rgba(212, 175, 55, 0.3);
         }
         .btn-primary:hover {
-            background-color: #FFC107; /* Slightly darker yellow on hover */
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
         }
-        .btn-secondary {
-            background-color: #212121; /* Dark secondary button */
-            color: #FFD700; /* Yellow text on dark */
-            font-weight: 700;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
-            transition: background-color 0.2s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        .whatsapp-float {
+            position: fixed; bottom: 2rem; right: 2rem;
+            background-color: #25D366; color: white;
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 100; transition: transform 0.3s ease;
         }
-        .btn-secondary:hover {
-            background-color: #333; /* Slightly lighter dark on hover */
-            transform: translateY(-2px);
+        .whatsapp-float:hover { transform: scale(1.1) rotate(10deg); }
+        
+        /* New Logo Animation */
+        #logo-container .logo-shield-bg { transition: fill 0.4s ease; }
+        #logo-container:hover .logo-shield-bg { fill: var(--primary-gold); }
+        #logo-container .logo-road {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            transition: stroke-dashoffset 0.8s ease-in-out;
         }
-
-        /* Form input styles */
-        input[type="text"], input[type="email"], input[type="tel"], textarea {
-            border: 1px solid #d1d5db; /* Lighter border */
-            padding: 0.65rem 1rem; /* Adjusted padding */
-            border-radius: 0.375rem; /* Standard rounded */
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        #logo-container:hover .logo-road {
+            stroke-dashoffset: 0;
         }
-        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus {
-            border-color: #FFD700; /* Yellow border on focus */
-            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2); /* Lighter yellow glow on focus */
-            outline: none;
+        #logo-container .logo-scales {
+            transform-origin: center;
+            transition: transform 0.4s ease-out;
+        }
+        #logo-container:hover .logo-scales {
+            transform: scale(1.1);
         }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-bg-dark">
 
-    <!-- Header -->
-    <header class="bg-white shadow-lg py-4 px-6 md:px-12 fixed w-full z-50">
+    <header class="py-5 px-6 md:px-12 fixed w-full z-50 transition-all duration-300" id="main-header">
         <nav class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center">
-                <!-- SVG Logo - Road/Highway Theme -->
-                <a href="#" class="logo-container">
-                    <svg width="45" height="45" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Black background for the road -->
-                        <rect x="0" y="0" width="100" height="100" fill="#212121" rx="12"/>
-                        <!-- Yellow road lines -->
-                        <path d="M10 50 H90" stroke="#FFD700" stroke-width="8" stroke-dasharray="10 10"/>
-                        <path d="M15 30 L85 70" stroke="#FFD700" stroke-width="4"/>
-                        <path d="M15 70 L85 30" stroke="#FFD700" stroke-width="4"/>
-                        <!-- Stylized 'S' for SOAT -->
-                        <text x="50" y="58" font-family="Inter, sans-serif" font-size="40" font-weight="bold" fill="#FFFFFF" text-anchor="middle">S</text>
-                    </svg>
-                    <span class="logo-text ml-2">Fabio Quintero</span>
-                </a>
-            </div>
-            <ul class="hidden md:flex space-x-8 text-lg font-medium">
-                <li><a href="#inicio" class="text-gray-700 hover:text-yellow-500 transition duration-300">Inicio</a></li>
-                <li><a href="#nosotros" class="text-gray-700 hover:text-yellow-500 transition duration-300">Nosotros</a></li>
-                <li><a href="#soat" class="text-gray-700 hover:text-yellow-500 transition duration-300">SOAT</a></li>
-                <li><a href="#derechos" class="text-gray-700 hover:text-yellow-500 transition duration-300">Tus Derechos</a></li>
-                <li><a href="#servicios" class="text-gray-700 hover:text-yellow-500 transition duration-300">Servicios</a></li>
-                <li><a href="#contacto" class="btn-secondary text-base">Contacto</a></li>
+            <a href="#" id="logo-container" class="flex items-center gap-3 text-white">
+                <svg width="50" height="50" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                        <path class="logo-shield-bg" d="M50 0L95.26 25V75L50 100L4.74 75V25L50 0Z" fill="#1a1a1a"/>
+                        <path class="logo-road" d="M35 80C40 65 60 65 65 80" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                        <g class="logo-scales">
+                            <path d="M30 30H70" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                            <path d="M50 30V20" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                            <path d="M30 30L20 50H40L30 30Z" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round"/>
+                            <path d="M70 30L60 50H80L70 30Z" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round"/>
+                        </g>
+                    </g>
+                </svg>
+                <span class="text-xl font-semibold tracking-wider">Asesores Jurídicos</span>
+            </a>
+            <ul class="hidden md:flex items-center space-x-8 text-lg text-gray-300">
+                <li><a href="#guia" class="hover:text-primary-gold transition-colors">Guía Rápida</a></li>
+                <li><a href="#servicios" class="hover:text-primary-gold transition-colors">Servicios</a></li>
+                <li><a href="#derechos" class="hover:text-primary-gold transition-colors">Tus Derechos</a></li>
+                <li><a href="#contacto" class="bg-primary-gold text-bg-dark font-bold px-6 py-2 rounded-full hover:bg-white transition-colors">Contacto</a></li>
             </ul>
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden text-gray-700 text-2xl focus:outline-none">
-                <i class="fas fa-bars"></i>
-            </button>
+            <button id="mobile-menu-btn" class="md:hidden text-3xl text-white"><i class="fas fa-bars"></i></button>
         </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white mt-4 rounded-lg shadow-lg">
-            <ul class="flex flex-col items-center py-4 space-y-4 text-lg font-medium">
-                <li><a href="#inicio" class="text-gray-700 hover:text-yellow-500 transition duration-300 block py-2">Inicio</a></li>
-                <li><a href="#nosotros" class="text-gray-700 hover:text-yellow-500 transition duration-300 block py-2">Nosotros</a></li>
-                <li><a href="#soat" class="text-gray-700 hover:text-yellow-500 transition duration-300 block py-2">SOAT</a></li>
-                <li><a href="#derechos" class="text-gray-700 hover:text-yellow-500 transition duration-300 block py-2">Tus Derechos</a></li>
-                <li><a href="#servicios" class="text-gray-700 hover:text-yellow-500 transition duration-300 block py-2">Servicios</a></li>
-                <li><a href="#contacto" class="btn-secondary text-base block text-center mt-4">Contacto</a></li>
-            </ul>
-        </div>
     </header>
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-bg-dark/98 backdrop-blur-sm z-40 flex flex-col items-center justify-center space-y-8 text-2xl text-white">
+        <button id="close-menu-btn" class="absolute top-8 right-8 text-4xl">&times;</button>
+        <a href="#guia" class="hover:text-primary-gold">Guía Rápida</a>
+        <a href="#servicios" class="hover:text-primary-gold">Servicios</a>
+        <a href="#derechos" class="hover:text-primary-gold">Tus Derechos</a>
+        <a href="#contacto" class="bg-primary-gold text-bg-dark font-bold px-8 py-3 rounded-full mt-4">Contacto</a>
+    </div>
 
     <main>
-        <!-- Hero Section -->
-        <section id="inicio" class="hero-bg text-white text-center px-4 pt-20">
-            <div class="hero-overlay"></div>
-            <div class="hero-content max-w-4xl px-6">
-                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 animate-fade-in-up text-yellow-400">
-                    ¿Sufriste un Accidente de Tránsito?
+        <section class="hero-section min-h-screen flex items-center pt-32 pb-16">
+            <div class="container mx-auto text-center px-6 z-10">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight text-white gsap-reveal">
+                    Más de 15 Años Convirtiendo <br> <span class="text-primary-gold">Accidentes en Indemnizaciones Justas.</span>
                 </h1>
-                <p class="text-lg md:text-2xl mb-8 animate-fade-in-up delay-100 text-gray-100">
-                    El Dr. Fabio Quintero Peñaloza, especialista en responsabilidad y seguros, te asesora para que recibas la indemnización que mereces.
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mt-6 text-text-light/80 gsap-reveal" data-gsap-delay="0.2">
+                    Desde hace más de una década, luchamos contra las aseguradoras en nombre de las víctimas de accidentes de tránsito. Tu recuperación es tu trabajo; asegurar tu compensación es el nuestro.
                 </p>
-                <a href="#contacto" class="btn-primary text-xl animate-fade-in-up delay-200 inline-block">
-                    ¡Obtén Asesoría Gratuita Ahora!
+                <a href="#contacto" class="btn-primary font-bold text-lg py-4 px-10 rounded-full inline-block mt-10 gsap-reveal" data-gsap-delay="0.4">
+                    Hablar con un Experto (Gratis)
                 </a>
             </div>
         </section>
 
-        <!-- About Us Section -->
-        <section id="nosotros" class="py-20 px-6 md:px-12 bg-white">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl section-title mb-20">Sobre el Dr. Fabio Quintero Peñaloza</h2>
-                <div class="flex flex-col md:flex-row items-center md:space-x-16">
-                    <div class="md:w-1/2 mb-10 md:mb-0">
-                        <img src="https://placehold.co/450x450/212121/FFD700?text=Fabio+Quintero+Pe%C3%B1aloza" alt="Fabio Quintero Peñaloza" class="rounded-full shadow-xl mx-auto w-72 h-72 object-cover border-4 border-yellow-400">
+        <section id="promesa" class="py-24 md:py-32 bg-bg-light text-text-dark">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="gsap-reveal">
+                        <h2 class="text-4xl md:text-5xl font-bold section-title mb-8 text-left">Nuestra Promesa: Experiencia y Empatía</h2>
+                        <p class="text-lg text-gray-600 leading-relaxed mb-4">
+                            Un accidente de tránsito te deja con preguntas, miedos y facturas. Por más de 15 años, hemos sido la respuesta para cientos de víctimas como tú. No somos solo abogados; somos los expertos que se sientan a tu lado, entienden tu historia y se enfrentan a las aseguradoras con la fuerza de la experiencia.
+                        </p>
+                        <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                            Conocemos cada cláusula, cada táctica y cada derecho que te corresponde. Nuestra trayectoria nos permite anticiparnos, negociar con firmeza y, si es necesario, litigar para ganar. Dejamos que tú te concentres en sanar, mientras nosotros nos concentramos en hacer justicia.
+                        </p>
+                        <div class="bg-yellow-50 border-l-4 border-primary-gold text-yellow-900 p-6 rounded-r-lg">
+                            <p class="font-semibold text-lg">Tu tranquilidad es nuestro único indicador de éxito.</p>
+                            <p>No cobramos ni un peso hasta que la indemnización esté en tus manos.</p>
+                        </div>
                     </div>
-                    <div class="md:w-1/2 text-left">
-                        <p class="text-lg leading-relaxed mb-6 text-gray-700">
-                            El Dr. Fabio Quintero Peñaloza es un abogado con una trayectoria impecable, <span class="font-semibold text-yellow-600">especialista en responsabilidad civil y seguros</span>. Con años de experiencia dedicados a la defensa de los derechos de las víctimas de accidentes de tránsito, su compromiso es garantizar que cada cliente reciba la justa indemnización a la que tiene derecho.
-                        </p>
-                        <p class="text-lg leading-relaxed mb-6 text-gray-700">
-                            Su profundo conocimiento del <span class="font-semibold text-yellow-600">Sistema Obligatorio de Accidentes de Tránsito (SOAT)</span> y de la legislación colombiana en materia de seguros, lo posiciona como un referente en el campo. La ética, la transparencia y la dedicación son los pilares de su práctica profesional.
-                        </p>
-                        <p class="text-lg leading-relaxed text-gray-700">
-                            En su despacho, cada caso es tratado con la máxima prioridad y atención personalizada, buscando siempre la solución más favorable para sus clientes.
-                        </p>
+                    <div class="gsap-reveal">
+                        <img src="https://placehold.co/600x700/1a1a1a/D4AF37?text=15+A%C3%B1os" alt="Más de 15 años de experiencia" class="rounded-2xl shadow-2xl w-full object-cover">
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- SOAT Information Section -->
-        <section id="soat" class="py-20 px-6 md:px-12 bg-gray-900 dark-section text-gray-100">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl section-title mb-20">¿Qué es el SOAT y qué cubre?</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <!-- SOAT Definition Card -->
-                    <div class="card bg-gray-800 text-gray-100">
-                        <i class="fas fa-car-crash text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Definición del SOAT</h3>
-                        <p class="leading-relaxed">
-                            El Seguro Obligatorio de Accidentes de Tránsito (SOAT) es un seguro de carácter social que cubre los daños corporales causados a personas en accidentes de tránsito. Es obligatorio para todos los vehículos que circulen en Colombia.
-                        </p>
-                    </div>
-                    <!-- Coverage Card -->
-                    <div class="card bg-gray-800 text-gray-100">
-                        <i class="fas fa-hospital text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Coberturas Principales</h3>
-                        <ul class="leading-relaxed text-left list-disc list-inside ml-4">
-                            <li>Gastos médicos, quirúrgicos, farmacéuticos y hospitalarios.</li>
-                            <li>Incapacidad permanente.</li>
-                            <li>Muerte y gastos funerarios.</li>
-                            <li>Gastos de transporte y movilización de las víctimas.</li>
-                        </ul>
-                    </div>
-                    <!-- Importance Card -->
-                    <div class="card bg-gray-800 text-gray-100">
-                        <i class="fas fa-shield-alt text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Importancia del SOAT</h3>
-                        <p class="leading-relaxed">
-                            El SOAT garantiza la atención inmediata a las víctimas de accidentes de tránsito, sin importar quién fue el responsable. Es una herramienta fundamental para la protección social y la seguridad vial en el país.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Your Rights Section -->
-        <section id="derechos" class="py-20 px-6 md:px-12 bg-white">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl section-title mb-20">Tus Derechos como Víctima de Accidente de Tránsito</h2>
-                <div class="flex flex-col md:flex-row items-center md:space-x-16">
-                    <div class="md:w-1/2 text-left mb-10 md:mb-0">
-                        <p class="text-lg leading-relaxed mb-6 text-gray-700">
-                            Si has sido víctima de un accidente de tránsito, es crucial que conozcas tus derechos. Más allá de la cobertura inicial del SOAT, puedes tener derecho a una indemnización adicional por los daños y perjuicios sufridos.
-                        </p>
-                        <p class="text-lg leading-relaxed mb-6 text-gray-700">
-                            El Dr. Fabio Quintero Peñaloza te asesora y representa en la reclamación de:
-                        </p>
-                        <ul class="text-lg leading-relaxed text-gray-700 list-disc list-inside ml-4 mb-8">
-                            <li>Indemnización por <span class="font-semibold text-yellow-600">daño emergente</span> (gastos médicos no cubiertos, daños materiales).</li>
-                            <li>Indemnización por <span class="font-semibold text-yellow-600">lucro cesante</span> (pérdida de ingresos por incapacidad).</li>
-                            <li>Indemnización por <span class="font-semibold text-yellow-600">daño moral</span> (sufrimiento y afectación emocional).</li>
-                            <li>Indemnización por <span class="font-semibold text-yellow-600">perjuicios fisiológicos o a la vida de relación</span>.</li>
-                            <li>Asesoría en casos de <span class="font-semibold text-yellow-600">muerte</span> de un familiar en accidente de tránsito.</li>
-                        </ul>
-                        <p class="text-lg leading-relaxed text-gray-700">
-                            No dejes que la complejidad legal te impida obtener lo que te corresponde. Estamos aquí para luchar por ti.
-                        </p>
-                        <a href="#contacto" class="btn-primary text-lg mt-10 inline-block">
-                            ¡Consulta tu Caso Ahora!
-                        </a>
-                    </div>
-                    <div class="md:w-1/2">
-                        <img src="https://placehold.co/600x400/212121/FFD700?text=Derechos+de+Victimas" alt="Derechos de Víctimas de Accidentes" class="rounded-xl shadow-xl w-full">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section id="servicios" class="py-20 px-6 md:px-12 bg-gray-900 dark-section text-gray-100">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl section-title mb-20">Nuestros Servicios</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <!-- Service Card 1 -->
-                    <div class="card bg-gray-800 text-gray-100">
-                        <i class="fas fa-comments-dollar text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Asesoría Legal Integral</h3>
-                        <p class="leading-relaxed">
-                            Desde el primer momento del accidente, te brindamos orientación sobre los pasos a seguir, la documentación necesaria y tus derechos.
-                        </p>
-                    </div>
-                    <!-- Service Card 2 -->
-                    <div class="card bg-gray-800 text-gray-100">
-                        <i class="fas fa-file-invoice-dollar text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Reclamación de Indemnizaciones</h3>
-                        <p class="leading-relaxed">
-                            Gestionamos y presentamos las reclamaciones ante las aseguradoras y responsables, buscando la máxima compensación posible.
-                        </p>
-                    </div>
-                    <!-- Service Card 3 -->
-                    <div class="card bg-gray-800 text-gray-100">
-                        <i class="fas fa-balance-scale text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Representación Judicial</h3>
-                        <p class="leading-relaxed">
-                            Si es necesario, te representamos en procesos judiciales para defender tus intereses y asegurar el cumplimiento de la ley.
-                        </p>
-                    </div>
-                    <!-- Service Card 4 -->
-                    <div class="card bg-gray-800 text-gray-100">
-                        <i class="fas fa-handshake text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Negociación con Aseguradoras</h3>
-                        <p class="leading-relaxed">
-                            Contamos con la experiencia para negociar eficazmente con las compañías de seguros, evitando acuerdos desfavorables.
-                        </p>
-                    </div>
-                    <!-- Service Card 5 -->
-                    <div class="card bg-gray-800 text-gray-100">
-                        <i class="fas fa-chart-line text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Análisis de Viabilidad de Casos</h3>
-                        <p class="leading-relaxed">
-                            Evaluamos tu caso sin costo para determinar la viabilidad de una reclamación y las posibles indemnizaciones.
-                        </p>
-                    </div>
-                    <!-- Service Card 6 -->
-                    <div class="card bg-gray-800 text-gray-100">
-                        <i class="fas fa-user-friends text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Atención Personalizada</h3>
-                        <p class="leading-relaxed">
-                            Cada cliente es único. Ofrecemos un trato cercano y comunicación constante durante todo el proceso.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Why Choose Us Section -->
-        <section id="porque-elegirnos" class="py-20 px-6 md:px-12 bg-white">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl section-title mb-20">¿Por Qué Elegir al Dr. Fabio Quintero Peñaloza?</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <div class="card">
-                        <i class="fas fa-graduation-cap text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Experiencia y Especialización</h3>
-                        <p class="text-gray-700 text-center">
-                            Más de una década de experiencia en responsabilidad civil y seguros, con un enfoque exclusivo en reclamaciones SOAT.
-                        </p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-hand-holding-usd text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Resultados Comprobados</h3>
-                        <p class="text-gray-700 text-center">
-                            Un historial exitoso de casos y clientes satisfechos que han obtenido la indemnización que merecen.
-                        </p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-user-shield text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Atención Personalizada</h3>
-                        <p class="text-gray-700 text-center">
-                            Cada caso es único y recibe la dedicación y el análisis detallado que se merece.
-                        </p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-dollar-sign text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Honorarios Justos</h3>
-                        <p class="text-gray-700 text-center">
-                            Ofrecemos esquemas de honorarios transparentes y competitivos, a menudo basados en el éxito del caso.
-                        </p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-map-marker-alt text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Cobertura Nacional</h3>
-                        <p class="text-gray-700 text-center">
-                            Aunque con base en Valledupar, atendemos casos en todo el territorio colombiano.
-                        </p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-headset text-5xl text-yellow-400 mb-6"></i>
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Soporte Continuo</h3>
-                        <p class="text-gray-700 text-center">
-                            Te mantenemos informado en cada etapa del proceso, resolviendo tus dudas con claridad.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section id="testimonios" class="py-20 px-6 md:px-12 bg-gray-900 dark-section text-gray-100">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl section-title mb-20">Lo que Dicen Nuestros Clientes</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <div class="card bg-gray-800 text-gray-100">
-                        <p class="italic mb-4">"El Dr. Quintero me ayudó a obtener una indemnización que no sabía que me correspondía. Su profesionalismo es impecable."</p>
-                        <p class="font-semibold text-yellow-400">- María P., Víctima de Accidente</p>
-                    </div>
-                    <div class="card bg-gray-800 text-gray-100">
-                        <p class="italic mb-4">"Recibí una atención personalizada y constante. Siempre supe en qué estado se encontraba mi caso. Totalmente recomendado."</p>
-                        <p class="font-semibold text-yellow-400">- Juan S., Cliente Satisfecho</p>
-                    </div>
-                    <div class="card bg-gray-800 text-gray-100">
-                        <p class="italic mb-4">"Gracias al Dr. Fabio, mi familia pudo superar un momento difícil. Su gestión fue clave para nuestra tranquilidad."</p>
-                        <p class="font-semibold text-yellow-400">- Familia R., Caso de Fallecimiento</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contacto" class="py-20 px-6 md:px-12 bg-white">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl section-title mb-20">Contáctanos</h2>
-                <p class="text-lg text-gray-700 mb-10">
-                    Estamos listos para escucharte y ofrecerte la mejor asesoría legal. Tu primera consulta es gratuita.
-                </p>
-                <div class="flex flex-col md:flex-row md:space-x-16 items-start justify-center">
-                    <!-- Contact Form -->
-                    <div class="md:w-1/2 bg-gray-100 p-10 rounded-xl shadow-lg mb-10 md:mb-0 w-full">
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-8">Envíanos un Mensaje</h3>
-                        <form action="#" method="POST" class="space-y-6">
-                            <div>
-                                <label for="name" class="block text-left text-gray-700 text-sm font-bold mb-2">Nombre Completo:</label>
-                                <input type="text" id="name" name="name" class="w-full" placeholder="Tu Nombre" required>
+        
+        <section id="guia" class="py-24 md:py-32 bg-bg-dark">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl section-title mb-20 gsap-reveal">La Ruta hacia tu Tranquilidad</h2>
+                <div class="relative max-w-4xl mx-auto">
+                    <div class="roadmap-line"><div class="roadmap-progress"></div></div>
+                    <div class="space-y-20">
+                        <!-- Step 1 -->
+                        <div class="roadmap-step">
+                            <div class="step-content gsap-reveal">
+                                <div class="bg-card-dark p-8 rounded-2xl inline-block max-w-md">
+                                    <i class="fas fa-car-burst text-4xl text-primary-gold mb-4"></i>
+                                    <h3 class="text-2xl mb-2">Paso 1: El Accidente</h3>
+                                    <p class="text-gray-400">Tu bienestar es la prioridad. Busca atención médica. Si puedes, toma fotos y datos de contacto. No admitas culpa. Tu salud es lo primero.</p>
+                                </div>
                             </div>
-                            <div>
-                                <label for="email" class="block text-left text-gray-700 text-sm font-bold mb-2">Correo Electrónico:</label>
-                                <input type="email" id="email" name="email" class="w-full" placeholder="tu.correo@ejemplo.com" required>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="roadmap-step">
+                            <div class="step-content gsap-reveal">
+                                <div class="bg-card-dark p-8 rounded-2xl inline-block max-w-md">
+                                    <i class="fas fa-phone-volume text-4xl text-primary-gold mb-4"></i>
+                                    <h3 class="text-2xl mb-2">Paso 2: Tu Llamada</h3>
+                                    <p class="text-gray-400">Contáctanos. La primera asesoría es gratuita y crucial. No hables con aseguradoras ni firmes nada antes de que evaluemos tu caso. Es tu derecho.</p>
+                                </div>
                             </div>
-                            <div>
-                                <label for="phone" class="block text-left text-gray-700 text-sm font-bold mb-2">Teléfono (Opcional):</label>
-                                <input type="tel" id="phone" name="phone" class="w-full" placeholder="+57 3XX XXX XXXX">
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="roadmap-step">
+                            <div class="step-content gsap-reveal">
+                                <div class="bg-card-dark p-8 rounded-2xl inline-block max-w-md">
+                                    <i class="fas fa-gavel text-4xl text-primary-gold mb-4"></i>
+                                    <h3 class="text-2xl mb-2">Paso 3: Nuestra Acción</h3>
+                                    <p class="text-gray-400">Nos encargamos de la burocracia. Recopilamos pruebas, estructuramos tu caso y nos enfrentamos a la aseguradora con la solidez de 15 años de experiencia.</p>
+                                </div>
                             </div>
-                            <div>
-                                <label for="message" class="block text-left text-gray-700 text-sm font-bold mb-2">Tu Mensaje / Describe tu Caso:</label>
-                                <textarea id="message" name="message" rows="6" class="w-full" placeholder="Describe brevemente tu situación o consulta..." required></textarea>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="roadmap-step">
+                            <div class="step-content gsap-reveal">
+                                <div class="bg-card-dark p-8 rounded-2xl inline-block max-w-md">
+                                    <i class="fas fa-hand-holding-dollar text-4xl text-primary-gold mb-4"></i>
+                                    <h3 class="text-2xl mb-2">Paso 4: Tu Indemnización</h3>
+                                    <p class="text-gray-400">El objetivo final: que recibas la compensación económica que mereces por ley, para que puedas enfocarte 100% en tu recuperación.</p>
+                                </div>
                             </div>
-                            <button type="submit" class="btn-primary w-full text-lg">
-                                Enviar Mensaje
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Contact Info -->
-                    <div class="md:w-1/2 bg-gray-100 p-10 rounded-xl shadow-lg w-full">
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-8">Nuestra Información de Contacto</h3>
-                        <div class="space-y-6 text-left text-gray-700 text-lg">
-                            <p><i class="fas fa-phone-alt text-yellow-500 mr-3"></i> <span class="font-semibold">Teléfonos:</span> <a href="tel:+573163646377" class="hover:text-yellow-600 transition duration-300">+57 316 364 6377</a> / <a href="tel:+573147578094" class="hover:text-yellow-600 transition duration-300">+57 314 757 8094</a></p>
-                            <p><i class="fas fa-envelope text-yellow-500 mr-3"></i> <span class="font-semibold">Email:</span> <a href="mailto:reclamacionessoat@hotmail.com" class="hover:text-yellow-600 transition duration-300">reclamacionessoat@hotmail.com</a></p>
-                            <p><i class="fas fa-clock text-yellow-500 mr-3"></i> <span class="font-semibold">Horario:</span> Lunes a Viernes: 8:00 AM - 6:00 PM</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section id="servicios" class="py-24 md:py-32 bg-bg-light text-text-dark">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl section-title mb-20 gsap-reveal">¿Qué reclamamos por ti?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg gsap-reveal">
+                        <i class="fas fa-user-xmark text-5xl text-primary-gold mb-6"></i>
+                        <h3 class="text-2xl font-bold mb-4">Indemnización por Fallecimiento</h3>
+                        <p class="text-gray-600">En el momento más difícil, aseguramos el sustento y la compensación para los familiares directos.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg gsap-reveal" data-gsap-delay="0.1">
+                        <i class="fas fa-wheelchair-move text-5xl text-primary-gold mb-6"></i>
+                        <h3 class="text-2xl font-bold mb-4">Incapacidad Permanente</h3>
+                        <p class="text-gray-600">Luchamos por una indemnización que refleje el impacto real de las secuelas en tu calidad de vida y capacidad laboral.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg gsap-reveal" data-gsap-delay="0.2">
+                        <i class="fas-solid fa-receipt text-5xl text-primary-gold mb-6"></i>
+                        <h3 class="text-2xl font-bold mb-4">Gastos Médicos y Transporte</h3>
+                        <p class="text-gray-600">Gestionamos el reembolso de cada gasto, desde medicamentos y terapias hasta los desplazamientos necesarios.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="testimonios" class="py-24 md:py-32 bg-bg-dark">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl section-title mb-20 gsap-reveal">No solo lo decimos nosotros</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-card-dark p-8 rounded-2xl gsap-reveal">
+                        <p class="italic text-gray-400 mb-4">"Después del accidente, estaba perdido. El equipo de Asesores Jurídicos me dio calma y se encargó de todo. Recibí una indemnización que no esperaba."</p>
+                        <p class="font-bold text-primary-gold">- Carlos M., Cliente Satisfecho</p>
+                    </div>
+                    <div class="bg-card-dark p-8 rounded-2xl gsap-reveal" data-gsap-delay="0.1">
+                        <p class="italic text-gray-400 mb-4">"Su profesionalismo es increíble. Siempre estuvieron disponibles para mis dudas y me explicaron todo con claridad. Los recomiendo a ojos cerrados."</p>
+                        <p class="font-bold text-primary-gold">- Ana Lucía G., Caso de Incapacidad</p>
+                    </div>
+                    <div class="bg-card-dark p-8 rounded-2xl gsap-reveal" data-gsap-delay="0.2">
+                        <p class="italic text-gray-400 mb-4">"Gracias a ellos, mi familia pudo tener un respiro económico en el momento más duro. Su gestión fue impecable y humana."</p>
+                        <p class="font-bold text-primary-gold">- Familia Rojas, Caso de Fallecimiento</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="py-24 md:py-32 bg-bg-light text-text-dark">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl section-title mb-8 gsap-reveal">Da el primer paso hacia tu tranquilidad.</h2>
+                <p class="text-lg max-w-3xl mx-auto text-gray-600 mb-12 gsap-reveal">La consulta es confidencial y gratuita. Rellena el formulario o envíanos un WhatsApp. Estamos aquí para escucharte y ayudarte.</p>
+                <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-2xl gsap-reveal">
+                    <form action="#" method="POST" class="space-y-6">
+                        <input type="text" placeholder="Tu Nombre Completo" required class="w-full bg-gray-100 border-gray-300 rounded-lg p-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-gold">
+                        <input type="tel" placeholder="Tu Número de WhatsApp" required class="w-full bg-gray-100 border-gray-300 rounded-lg p-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-gold">
+                        <textarea rows="5" placeholder="Describe brevemente tu caso..." required class="w-full bg-gray-100 border-gray-300 rounded-lg p-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-gold"></textarea>
+                        <button type="submit" class="btn-primary w-full font-bold text-lg py-4 rounded-full">
+                            Solicitar mi Asesoría Gratuita
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 py-10 px-6 md:px-12 mt-auto">
-        <div class="container mx-auto text-center text-sm">
-            <p>&copy; 2025 Fabio Quintero Peñaloza. Todos los derechos reservados.</p>
-            <p class="mt-3">Diseñado para ayudar a las víctimas de accidentes de tránsito en Colombia.</p>
+    <footer class="py-12 bg-black text-center text-gray-600">
+        <div class="container mx-auto px-6">
+            <p>&copy; {new Date().getFullYear()} Asesores Jurídicos. Todos los derechos reservados.</p>
+            <p class="text-sm mt-2">Defendiendo a las víctimas de accidentes de tránsito en toda Colombia.</p>
         </div>
     </footer>
 
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/573163646377" class="whatsapp-button" target="_blank" aria-label="Chatear por WhatsApp">
+    <a href="https://wa.me/573163646377" target="_blank" class="whatsapp-float" aria-label="Contactar por WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Close mobile menu after clicking a link
-                const mobileMenu = document.getElementById('mobile-menu');
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
+        document.addEventListener('DOMContentLoaded', () => {
+            // GSAP Animations
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Header animation
+            gsap.to("#main-header", {
+                backgroundColor: "rgba(16, 16, 16, 0.8)",
+                backdropFilter: "blur(10px)",
+                borderBottom: "1px solid #333",
+                scrollTrigger: {
+                    trigger: "body",
+                    start: "top top",
+                    end: "+=150",
+                    scrub: 1,
                 }
             });
-        });
 
-        // Toggle mobile menu
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+            // General reveal animation
+            const revealElements = document.querySelectorAll('.gsap-reveal');
+            revealElements.forEach(el => {
+                gsap.fromTo(el, 
+                    { opacity: 0, y: 60, visibility: 'hidden' },
+                    { 
+                        opacity: 1, y: 0, visibility: 'visible', 
+                        duration: 1, ease: 'power3.out',
+                        delay: el.dataset.gsapDelay || 0,
+                        scrollTrigger: {
+                            trigger: el,
+                            start: 'top 90%',
+                            toggleActions: 'play none none none',
+                        }
+                    }
+                );
+            });
+            
+            // Roadmap animation
+            const roadmapSection = document.querySelector("#guia");
+            if(roadmapSection) {
+                gsap.to(".roadmap-progress", {
+                    height: "100%",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".roadmap-line",
+                        start: "top center",
+                        end: "bottom center",
+                        scrub: true
+                    }
+                });
+
+                const steps = document.querySelectorAll('.roadmap-step');
+                steps.forEach(step => {
+                    ScrollTrigger.create({
+                        trigger: step,
+                        start: "top center",
+                        end: "bottom center",
+                        toggleClass: {targets: step, className: "is-active"}
+                    });
+                });
+            }
+
+            // Mobile Menu
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuLinks = mobileMenu.querySelectorAll('a');
+
+            const openMenu = () => mobileMenu.classList.remove('hidden');
+            const closeMenu = () => mobileMenu.classList.add('hidden');
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            closeMenuBtn.addEventListener('click', closeMenu);
+            menuLinks.forEach(link => link.addEventListener('click', closeMenu));
+            
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
         });
     </script>
 </body>
